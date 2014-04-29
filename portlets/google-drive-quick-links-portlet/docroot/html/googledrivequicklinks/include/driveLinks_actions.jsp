@@ -32,4 +32,4 @@ DriveLinks link = (DriveLinks)row.getObject();
     <portlet:param name="redirectTo" value="<%= PortalUtil.getCurrentURL(request) %>"/>
 </portlet:actionURL>
 
-<liferay-ui:icon-delete url="${deleteDriveLinkUrl}" />
+<a class="btn delete-btn icon-remove-sign"  href="${deleteDriveLinkUrl}"></a>
