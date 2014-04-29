@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="com.rivetlogic.portlet.model.DriveLinks" />
+	<class name="com.rivetlogic.portlet.model.impl.DriveLinksImpl" table="rivetlogic_driveQL_DriveLinks">
+		<cache usage="read-write" />
+		<composite-id name="primaryKey" class="com.rivetlogic.portlet.service.persistence.DriveLinksPK">
+			<key-property name="USER_ID" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+			<key-property name="DOCUMENT_ID" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		</composite-id>
+		<property name="NAME" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="URL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+</hibernate-mapping>

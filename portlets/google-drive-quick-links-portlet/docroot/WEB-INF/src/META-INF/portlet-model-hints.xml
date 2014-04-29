@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.rivetlogic.portlet.model.DriveLinks">
+		<field name="USER_ID" type="String" />
+		<field name="DOCUMENT_ID" type="String" />
+		<field name="NAME" type="String" />
+		<field name="URL" type="String">
+			<hint name="max-length">150</hint>
+		</field>
+	</model>
+</model-hints>
