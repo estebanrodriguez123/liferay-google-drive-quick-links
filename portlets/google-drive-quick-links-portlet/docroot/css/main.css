@@ -1,3 +1,18 @@
+@import "compass";
+
 .hidden {
 	visibility:hidden;
+}
+
+.aui .googledrivequicklinks-portlet {
+    .delete-btn,
+    .delete-btn:hover {
+        background-color: #e81122;
+        @include background-image(linear-gradient(top bottom, #f45, #e81122));
+        border: #A12 solid 1px;
+        color: #FFF;
+        text-shadow: none;
+        font-size: 1.4em;
+        display: block;
+    }
 }
