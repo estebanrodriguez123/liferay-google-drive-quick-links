@@ -1,0 +1,1 @@
+create index IX_A2533321 on rivetlogic_driveQL_DriveLinks (USER_ID);
