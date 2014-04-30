@@ -37,6 +37,9 @@ iteratorURL.setParameter("userId", userId);
 </portlet:actionURL>
 
 <liferay-ui:error key="portlet-user-not-logged" message="portlet-user-not-logged" />
+<liferay-ui:error key="add-link-error" message="add-link-error" />
+<liferay-ui:error key="delete-link-error" message="delete-link-error" />
+
 <c:if test="<%= themeDisplay.isSignedIn()%>">
 	<aui:form action="${addDriveLinkUrl}" name="form" method="POST">
 		<liferay-ui:message key="view-header-message"></liferay-ui:message>
