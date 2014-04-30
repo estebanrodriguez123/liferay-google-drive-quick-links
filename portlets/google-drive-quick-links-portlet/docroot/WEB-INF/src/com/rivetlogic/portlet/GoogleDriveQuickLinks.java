@@ -107,6 +107,7 @@ public class GoogleDriveQuickLinks extends MVCPortlet {
             }
         } catch (SystemException e) {
             LOG.error(e);
+            SessionErrors.add(request, "add-link-error");
         }
         response.sendRedirect(ParamUtil.getString(request, "redirectTo"));
     }
@@ -133,6 +134,7 @@ public class GoogleDriveQuickLinks extends MVCPortlet {
             DriveLinksLocalServiceUtil.deleteDriveLink(driveLink);
         } catch (SystemException e) { 
             LOG.error(e);
+            SessionErrors.add(request, "delete-link-error");
         }
         response.sendRedirect(ParamUtil.getString(request, "redirectTo"));
     }

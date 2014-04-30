@@ -65,7 +65,7 @@ public class DriveLinksModelImpl extends BaseModelImpl<DriveLinks>
 			{ "NAME", Types.VARCHAR },
 			{ "URL", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table rivetlogic_driveQL_DriveLinks (USER_ID VARCHAR(75) not null,DOCUMENT_ID VARCHAR(75) not null,NAME VARCHAR(75) null,URL VARCHAR(150) null,primary key (USER_ID, DOCUMENT_ID))";
+	public static final String TABLE_SQL_CREATE = "create table rivetlogic_driveQL_DriveLinks (USER_ID VARCHAR(75) not null,DOCUMENT_ID VARCHAR(75) not null,NAME VARCHAR(200) null,URL VARCHAR(150) null,primary key (USER_ID, DOCUMENT_ID))";
 	public static final String TABLE_SQL_DROP = "drop table rivetlogic_driveQL_DriveLinks";
 	public static final String ORDER_BY_JPQL = " ORDER BY driveLinks.id.USER_ID ASC, driveLinks.id.DOCUMENT_ID ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY rivetlogic_driveQL_DriveLinks.USER_ID ASC, rivetlogic_driveQL_DriveLinks.DOCUMENT_ID ASC";
