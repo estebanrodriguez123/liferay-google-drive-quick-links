@@ -1,4 +1,3 @@
-<%--
 /**
 * Copyright (C) 2005-2014 Rivet Logic Corporation.
 *
@@ -17,21 +16,23 @@
 * Foundation, Inc., 51 Franklin Street, Fifth Floor,
 * Boston, MA 02110-1301, USA.
 */
---%>
 
-<%@include file="/html/init.jsp" %>
+package com.rivetlogic.portlet.util;
 
-<% 
-ResultRow row = (ResultRow)request.getAttribute(com.liferay.portal.kernel.util.WebKeys.SEARCH_CONTAINER_RESULT_ROW);
-DriveLinks link = (DriveLinks)row.getObject();
-%>
+public class Constants {
+	
+	public static final String DOCUMENT_ID = "documentId";
+	public static final String DOCUMENT_NAME = "documentName";
+	public static final String DOCUMENT_URL = "documentUrl";
+	public static final String LINK_ID = "linkId";
+	public static final String LINK_USER = "linkUser";
+	
+	public static final String USER_ID = "userId";
+	public static final String DEVELOPER_KEY = "developerKey";
+	public static final String CLIENT_ID = "clientId";
+	
+	public static final String ADD_LINK_ERROR = "add-link-error";
+	public static final String DELETE_LINK_ERROR = "delete-link-error";
+	public static final String PORTLET_USER_NOT_LOGGED = "portlet-user-not-logged";
 
-<portlet:actionURL name="deleteDriveLink" var="deleteDriveLinkUrl">
-    <portlet:param name="linkId" value="<%=link.getDOCUMENT_ID()%>"/>
-    <portlet:param name="linkUser" value="<%=link.getUSER_ID()%>"/>
-    <portlet:param name="redirect" value="<%= PortalUtil.getCurrentURL(request) %>"/>
-</portlet:actionURL>
-
-<liferay-ui:icon-menu>
-	<liferay-ui:icon-delete url="${deleteDriveLinkUrl}" />
-</liferay-ui:icon-menu>
+}

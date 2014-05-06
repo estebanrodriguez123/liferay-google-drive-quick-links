@@ -101,7 +101,7 @@ public class DriveLinksLocalServiceImpl extends DriveLinksLocalServiceBaseImpl {
         dlPK.setDOCUMENT_ID(driveLink.getDOCUMENT_ID());
         dlPK.setUSER_ID(driveLink.getUSER_ID());
 		
-        if(driveLinksPersistence.fetchByPrimaryKey(dlPK) != null){
+        if (driveLinksPersistence.fetchByPrimaryKey(dlPK) != null){
             return true;
         }
         return false;

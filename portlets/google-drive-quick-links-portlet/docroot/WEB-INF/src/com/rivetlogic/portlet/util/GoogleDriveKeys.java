@@ -17,7 +17,7 @@
 * Boston, MA 02110-1301, USA.
 */
 
-package com.rivetlogic.portlet;
+package com.rivetlogic.portlet.util;
 
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.GetterUtil;

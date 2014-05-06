@@ -15,24 +15,75 @@
  * Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-AUI().use('aui-modal', 'aui-io','picker-module', function (A) {
-    function UtilityClass() {
-        this.portletNamespace;
-        this.developerKey;
-        this.clientId;
-        this.scope = ['https://www.googleapis.com/auth/drive'];
-        this.pickerApiLoaded = false;
-        this.oauthToken;
-    }
-
-    UtilityClass.prototype = {
-        formSubmit: function (pns) {
-            this.portletNamespace = pns;
-            A.one("#"+ this.portletNamespace +"form").submit();
-        },
-        selectFile: function (devKey,cId,pns) {
-            A.MyGooglePicker.onApiLoad(devKey, cId, pns);
+YUI.add('picker-module', function (Y) {
+	
+    var developerKey = "",
+    	clientId = "",
+    	GOOGLE_API_URL = 'https://www.googleapis.com/auth/drive', 
+    	scope = [GOOGLE_API_URL],
+    	pickerApiLoaded = false,
+    	oauthToken = "",
+    	portletNamespace = "";
+	
+    Y.namespace('MyGooglePicker');
+    
+    // Use the API Loader script to load google.picker and gapi.auth.
+    Y.MyGooglePicker.onApiLoad = function(devKey,cId,pns) {
+        developerKey=devKey;
+        clientId=cId;
+        portletNamespace=pns;
+		
+        gapi.load('auth', {'callback': Y.MyGooglePicker.onAuthApiLoad});
+        gapi.load('picker', {'callback': Y.MyGooglePicker.onPickerApiLoad});
+    },
+    Y.MyGooglePicker.onAuthApiLoad = function() {
+        window.gapi.auth.authorize(
+		        {
+		            'client_id': clientId,
+		            'scope': scope,
+		            'immediate': false
+		        },
+		        Y.MyGooglePicker.handleAuthResult);
+    },
+    
+    Y.MyGooglePicker.onPickerApiLoad = function() {
+        pickerApiLoaded = true;
+        Y.MyGooglePicker.createPicker();
+    },
+    Y.MyGooglePicker.handleAuthResult = function(authResult) {
+        if (authResult && !authResult.error) {
+	        oauthToken = authResult.access_token;
+	        Y.MyGooglePicker.createPicker();
+	    }
+    },
+    Y.MyGooglePicker.createPicker = function() {
+        if (pickerApiLoaded && oauthToken) {
+            var picker = new google.picker.PickerBuilder().
+		        addView(google.picker.ViewId.DOCS).
+		        addView(new google.picker.DocsUploadView()).
+		        setOAuthToken(oauthToken).
+		        setDeveloperKey(developerKey).
+		        setCallback(Y.MyGooglePicker.pickerCallback).
+		        build();
+		    picker.setVisible(true);
         }
-    };
-    window.UtilityClass = new UtilityClass();
+    },
+    // A simple callback implementation.
+    Y.MyGooglePicker.pickerCallback = function(data) {
+        if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
+	        var doc = data[google.picker.Response.DOCUMENTS][0],
+	        	name = doc[google.picker.Document.NAME],
+	        	id = doc[google.picker.Document.ID],
+	        	url = doc[google.picker.Document.URL],
+	        	form = Y.one("#"+portletNamespace+"form");
+	        
+	        form.one("#"+portletNamespace+"documentUrl").set('value', url);
+	        form.one("#"+portletNamespace+"documentName").set('value', name);
+	        form.one("#"+portletNamespace+"documentId").set('value', id);
+	        
+	        form.submit();
+	    }
+    };	
+}, '1.0', {
+    requires: ['google-picker-api', 'aui-modal', 'aui-io']
 });
