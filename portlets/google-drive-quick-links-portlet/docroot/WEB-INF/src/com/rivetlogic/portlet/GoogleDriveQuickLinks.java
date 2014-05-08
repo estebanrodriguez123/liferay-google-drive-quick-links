@@ -36,9 +36,10 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.util.bridges.mvc.MVCPortlet;
-
 import com.rivetlogic.portlet.model.impl.DriveLinksImpl;
 import com.rivetlogic.portlet.service.DriveLinksLocalServiceUtil;
+import com.rivetlogic.portlet.util.Constants;
+import com.rivetlogic.portlet.util.GoogleDriveKeys;
 
 /**
  * The Class GoogleDriveQuickLinks.
@@ -72,7 +73,7 @@ public class GoogleDriveQuickLinks extends MVCPortlet {
     			(ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
     	if(!themeDisplay.isSignedIn()){
     		SessionMessages.add(request, request.getAttribute(WebKeys.PORTLET_ID) + SessionMessages.KEY_SUFFIX_HIDE_DEFAULT_ERROR_MESSAGE);
-    		SessionErrors.add(request, "portlet-user-not-logged");
+    		SessionErrors.add(request, Constants.PORTLET_USER_NOT_LOGGED);
     	}
         super.doView(request, response);
     }
@@ -88,9 +89,9 @@ public class GoogleDriveQuickLinks extends MVCPortlet {
 	public void addDriveLink(ActionRequest request, ActionResponse response)
             throws PortletException, IOException{
 		
-		String documentId = ParamUtil.getString(request, "documentId");
-        String documentName = ParamUtil.getString(request, "documentName");
-        String documentUrl = ParamUtil.getString(request, "documentUrl");
+		String documentId = ParamUtil.getString(request, Constants.DOCUMENT_ID);
+        String documentName = ParamUtil.getString(request, Constants.DOCUMENT_NAME);
+        String documentUrl = ParamUtil.getString(request, Constants.DOCUMENT_URL);
 		
         ThemeDisplay themeDisplay = 
                 (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
@@ -107,9 +108,8 @@ public class GoogleDriveQuickLinks extends MVCPortlet {
             }
         } catch (SystemException e) {
             LOG.error(e);
-            SessionErrors.add(request, "add-link-error");
+            SessionErrors.add(request, Constants.ADD_LINK_ERROR);
         }
-        response.sendRedirect(ParamUtil.getString(request, "redirectTo"));
     }
 
     /**
@@ -123,8 +123,8 @@ public class GoogleDriveQuickLinks extends MVCPortlet {
     public void deleteDriveLink(ActionRequest request, ActionResponse response)
             throws PortletException, IOException{
 		
-        String linkId = ParamUtil.getString(request, "linkId");
-        String linkUser = ParamUtil.getString(request, "linkUser");
+        String linkId = ParamUtil.getString(request, Constants.LINK_ID);
+        String linkUser = ParamUtil.getString(request, Constants.LINK_USER);
 		
         DriveLinksImpl driveLink = new DriveLinksImpl();
         driveLink.setDOCUMENT_ID(linkId);
@@ -134,9 +134,8 @@ public class GoogleDriveQuickLinks extends MVCPortlet {
             DriveLinksLocalServiceUtil.deleteDriveLink(driveLink);
         } catch (SystemException e) { 
             LOG.error(e);
-            SessionErrors.add(request, "delete-link-error");
+            SessionErrors.add(request, Constants.DELETE_LINK_ERROR);
         }
-        response.sendRedirect(ParamUtil.getString(request, "redirectTo"));
     }
     
     /**
@@ -159,8 +158,8 @@ public class GoogleDriveQuickLinks extends MVCPortlet {
     		LOG.error(e);
     	}
     	
-    	request.setAttribute("userId", themeDisplay.getRealUser().getUuid());
-    	request.setAttribute("developerKey", googleDeveloperKey);
-    	request.setAttribute("clientId", googleClientId);
+    	request.setAttribute(Constants.USER_ID, themeDisplay.getRealUser().getUuid());
+    	request.setAttribute(Constants.DEVELOPER_KEY, googleDeveloperKey);
+    	request.setAttribute(Constants.CLIENT_ID, googleClientId);
     }
 }

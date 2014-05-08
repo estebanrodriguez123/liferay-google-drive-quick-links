@@ -1,30 +1,29 @@
 <%--
-    /*
-    * Copyright (C) 2005-2014 Rivet Logic Corporation.
-    *
-    * This program is free software; you can redistribute it and/or
-    * modify it under the terms of the GNU General Public License
-    * as published by the Free Software Foundation; version 2
-    * of the License.
-    *
-    * This program is distributed in the hope that it will be useful,
-    * but WITHOUT ANY WARRANTY; without even the implied warranty of
-    * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    * GNU General Public License for more details.
-    *
-    * You should have received a copy of the GNU General Public License
-    * along with this program; if not, write to the Free Software
-    * Foundation, Inc., 51 Franklin Street, Fifth Floor,
-    * Boston, MA 02110-1301, USA.
-    */
+/*
+* Copyright (C) 2005-2014 Rivet Logic Corporation.
+*
+* This program is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public License
+* as published by the Free Software Foundation; version 2
+* of the License.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 51 Franklin Street, Fifth Floor,
+* Boston, MA 02110-1301, USA.
+*/
 --%>
 
 <%@include file="/html/init.jsp" %>
 
 <% 
-
 String userId = themeDisplay.getRealUser().getUuid();
-
+    				
 PortletURL iteratorURL = renderResponse.createRenderURL();
 iteratorURL.setParameter("jspPage", "/html/googledrivequicklinks/view.jsp");
 iteratorURL.setParameter("userId", userId);
@@ -33,7 +32,7 @@ iteratorURL.setParameter("userId", userId);
 <portlet:actionURL name="addDriveLink" var="addDriveLinkUrl">
     <portlet:param name="developerKey" value="${developerKey}"/>
     <portlet:param name="clientId" value="${clientId}"/>
-    <portlet:param name="redirectTo" value="<%= PortalUtil.getCurrentURL(request) %>"/>
+    <portlet:param name="redirect" value="<%= PortalUtil.getCurrentURL(request) %>"/>
 </portlet:actionURL>
 
 <liferay-ui:error key="portlet-user-not-logged" message="portlet-user-not-logged" />
@@ -70,8 +69,8 @@ iteratorURL.setParameter("userId", userId);
 		<aui:input name="documentId" id="documentId" type="hidden" />
 		<aui:fieldset>
 		    <aui:button-row>
-		        <aui:button type="button" value="select-button"  cssClass="btn-primary"
-		        	onClick="UtilityClass.selectFile('${developerKey}','${clientId}','${pns}')"/>
+		        <aui:button name="selectFile" value="select-button" type="button" 
+		        	cssClass="btn-primary" icon="icon-plus"/>
 		    </aui:button-row>
 		</aui:fieldset>
 	</aui:form>	
@@ -79,12 +78,32 @@ iteratorURL.setParameter("userId", userId);
 
 
 <c:if test="<%= themeDisplay.isSignedIn()%>">
-    <script type="text/javascript">
-        function onApiLoad() {
-              gapi.load('auth', {'callback': function() { }});
-              gapi.load('picker', {'callback': function() { }});
-        }
-    </script>
-    <script type="text/javascript" src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
+<aui:script >
+	function onApiLoad() {
+	      gapi.load('auth', {'callback': function() { }});
+	      gapi.load('picker', {'callback': function() { }});
+	}
+
+	AUI().applyConfig({
+	    groups : {
+	        'google-api' : {
+	            base : '<%= request.getContextPath()%>/js/',
+	            async : false,
+	            modules : {
+	        		'google-picker-api': {
+	        			path: 'api.js?onload=onApiLoad'
+	        		}
+	            }
+	        }
+	    }
+	});
+
+</aui:script >
+
+<aui:script use="picker-module">
+	A.one("#${pns}selectFile").on("click", function(e){
+		A.MyGooglePicker.onApiLoad('${developerKey}','${clientId}','${pns}');
+	});
+</aui:script>
     
 </c:if>	
