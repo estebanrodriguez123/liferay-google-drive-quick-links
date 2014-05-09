@@ -41,7 +41,6 @@ iteratorURL.setParameter("userId", userId);
 
 <c:if test="<%= themeDisplay.isSignedIn()%>">
 	<aui:form action="${addDriveLinkUrl}" name="form" method="POST">
-		<liferay-ui:message key="view-header-message"></liferay-ui:message>
 		<liferay-ui:search-container delta="10" iteratorURL="<%= iteratorURL %>"
 		    emptyResultsMessage="no-links-message">
 		
